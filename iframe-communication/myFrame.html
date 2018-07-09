@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>iframe</title>
+    <style>
+        body {
+            background-color: slateblue;
+            color: white;
+            display: flex;
+            height: 100vh;
+            margin: 0;
+        }
+        .content {
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+
+        <div class="content">
+
+                <h1>iframe</h1>
+                <h2>iframe > padre</h2>
+                    <form>
+                        <input type="text" id="text">
+                    </form>
+                <h2>padre > iframe</h2>
+                <div id="chat"></div>
+        </div>
+    <script>
+        var chat = document.getElementById('chat');
+        var text = document.getElementById('text');
+
+        document.forms[0].addEventListener('submit', function(ev){
+            ev.preventDefault();
+            window.parent.postMessage(text.value, '*');
+            text.value = '';
+        });
+    
+        window.addEventListener('message', function(ev) {
+            console.log(ev.data);
+            chat.innerHTML = ev.data;
+        })
+        window.addEventListener('load', function(){
+            console.log('dom loaded');
+        });
+    </script>
+</body>
+</html>
